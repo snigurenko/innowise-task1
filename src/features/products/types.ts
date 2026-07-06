@@ -9,6 +9,8 @@ export interface Product {
   brand?: string
   category: string
   stock: number
+  discountPercentage?: number
+  availabilityStatus?: string
 }
 
 export interface ProductsResponse {

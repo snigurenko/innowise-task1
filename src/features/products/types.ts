@@ -1,0 +1,25 @@
+export interface Product {
+  id: number
+  title: string
+  description: string
+  price: number
+  rating: number
+  thumbnail: string
+  images: string[]
+  brand?: string
+  category: string
+  stock: number
+}
+
+export interface ProductsResponse {
+  products: Product[]
+  total: number
+  skip: number
+  limit: number
+}
+
+export interface ProductsQueryArgs {
+  limit?: number
+  skip?: number
+  search?: string
+}

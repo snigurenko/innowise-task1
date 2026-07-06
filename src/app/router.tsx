@@ -1,9 +1,11 @@
-import { createBrowserRouter, Navigate } from 'react-router'
+import { createBrowserRouter } from 'react-router'
 import { Layout } from '@/app/Layout'
 import { ProtectedRoute } from '@/app/ProtectedRoute'
 import { LoginPage } from '@/pages/LoginPage'
+import { HomePage } from '@/pages/HomePage'
 import { ProductsPage } from '@/pages/ProductsPage'
 import { ProductDetailPage } from '@/pages/ProductDetailPage'
+import { DocumentationPage } from '@/pages/DocumentationPage'
 import { ChatPage } from '@/pages/ChatPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 
@@ -22,9 +24,10 @@ export const router = createBrowserRouter([
       {
         element: <Layout />,
         children: [
-          { path: '/', element: <Navigate to="/products" replace /> },
-          { path: '/products', element: <ProductsPage /> },
-          { path: '/products/:id', element: <ProductDetailPage /> },
+          { path: '/', element: <HomePage /> },
+          { path: '/tables', element: <ProductsPage /> },
+          { path: '/tables/:id', element: <ProductDetailPage /> },
+          { path: '/documentation', element: <DocumentationPage /> },
           { path: '/chat', element: <ChatPage /> },
         ],
       },

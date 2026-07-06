@@ -10,7 +10,7 @@ interface ProductCardProps {
 function ProductCardComponent({ product }: ProductCardProps) {
   return (
     <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <CardActionArea component={RouterLink} to={`/products/${product.id}`} sx={{ flexGrow: 1 }}>
+      <CardActionArea component={RouterLink} to={`/tables/${product.id}`} sx={{ flexGrow: 1 }}>
         <CardMedia
           component="img"
           height="160"

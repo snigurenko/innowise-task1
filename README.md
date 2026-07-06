@@ -1,22 +1,37 @@
-# React Test Task — Products & Chat
+# React Test Task — Pharma Testing Dashboard
 
 A single-page application built with React 19 + TypeScript + Vite. Users log in against the
-[DummyJSON](https://dummyjson.com) test API, browse and search a paginated product catalog with
-RTK Query caching, view product details (with an image lightbox), and chat over a live WebSocket
-connection.
+[DummyJSON](https://dummyjson.com) test API and browse/track drug & vaccine testing records —
+a dashboard, a searchable data table, a detail ("Process") view, and a bonus WebSocket chat. The
+UI is styled after a pharmaceutical-company dashboard reference design
+([Figma: DEMO for Dima Bukovsky](https://www.figma.com/design/FXH4IrR8Vho44BpcloBNfc/DEMO-for-Dima-Bukovsky)),
+while the data itself is the generic DummyJSON `/products` endpoint — see "About the data" below.
 
 ## Functionality
 
 - **Login** (`/login`) — authenticates against `POST https://dummyjson.com/auth/login`. Try
   `emilys` / `emilyspass` (or any [DummyJSON test user](https://dummyjson.com/users)). The
   session token is persisted to `localStorage` and restored on reload.
-- **Products** (`/products`) — paginated, searchable product grid fetched via RTK Query, with
-  automatic response caching so revisiting a page/search doesn't re-fetch.
-- **Product detail** (`/products/:id`) — full product info plus a thumbnail gallery that opens
-  an image lightbox modal.
+- **Home** (`/`) — dashboard with stat highlights and charts (line/bar/donut, via Recharts), all
+  computed live from a real RTK Query response.
+- **Tables** (`/tables`) — paginated, searchable data table fetched via RTK Query, with automatic
+  response caching so revisiting a page/search doesn't re-fetch.
+- **Process** (`/tables/:id`) — full detail view for a single record: location, dates, an image
+  gallery/lightbox, "Get directions" (real Google Maps link), and "Add to Calendar" (generates a
+  real downloadable `.ics` file).
+- **Documentation** (`/documentation`) — in-app docs page summarizing the stack and page list.
 - **Chat** (`/chat`) — bonus WebSocket chat connected to the public echo server
   `wss://ws.ifelse.io`; anything you send is echoed back by the server.
 - Unauthenticated visitors are redirected to `/login`; unknown routes render a 404 page.
+
+## About the data
+
+DummyJSON's `/products` endpoint doesn't have fields like "facility", "trial dates", or
+"manufacturer" — so those are derived **deterministically** from each product's real `id`,
+`rating`, `stock`, `price`, and `discountPercentage` in
+[`src/features/products/pharmaMapping.ts`](./src/features/products/pharmaMapping.ts). Same
+product id always produces the same facility/dates/progress, and every number shown ultimately
+traces back to the live API response — nothing on screen is random or hardcoded mock data.
 
 ## Tech stack / dependencies
 
@@ -27,6 +42,7 @@ connection.
 | Routing | [React Router](https://reactrouter.com/) (v8, data mode) |
 | Global/server state | [Redux Toolkit](https://redux-toolkit.js.org/) + [RTK Query](https://redux-toolkit.js.org/rtk-query/overview) |
 | Component library | [MUI (Material UI)](https://mui.com/) |
+| Charts | [Recharts](https://recharts.org/) |
 | Linting/formatting | ESLint (flat config, typescript-eslint) + Prettier |
 
 Full dependency list and versions are in `package.json`.
@@ -86,5 +102,7 @@ rewrite for Vercel).
   used for a concrete reason (not just to check a box) — see `ProductCard.tsx`,
   `ImageLightbox.tsx`, `ProductDetailPage.tsx`, and `useWebSocket.ts` respectively, each with an
   inline comment explaining why.
+- The pharma-themed table/dashboard values are all derived from real API fields, not mocked —
+  see "About the data" above and `pharmaMapping.ts`.
 - RTK Query cache tags (`tagTypes`/`providesTags`) are set up on the products API so future
   mutations (e.g. an edit/delete feature) can invalidate exactly the right cached entries.

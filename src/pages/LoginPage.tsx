@@ -21,7 +21,7 @@ export function LoginPage() {
 
   // Already authenticated → skip the login screen entirely.
   if (token) {
-    return <Navigate to="/products" replace />
+    return <Navigate to="/" replace />
   }
 
   const handleSubmit = async (e: FormEvent) => {
@@ -41,7 +41,7 @@ export function LoginPage() {
           },
         }),
       )
-      navigate('/products')
+      navigate('/')
     } catch {
       // `error` from useLoginMutation already reflects the failure in the UI.
     }

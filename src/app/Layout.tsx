@@ -101,21 +101,21 @@ export function Layout() {
           </Stack>
 
           <Stack direction="row" spacing={1} alignItems="center">
-            <IconButton
-              size="small"
-              sx={{
-                bgcolor: '#FCE9D0',
-                color: '#B4690E',
-                width: 32,
-                height: 32,
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                p: 0,
-              }}
-            >
-              <LightModeOutlinedIcon fontSize="small" />
+            <IconButton size="small">
+              <Box
+                sx={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: '50%',
+                  bgcolor: '#FCE9D0',
+                  color: '#B4690E',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <LightModeOutlinedIcon fontSize="small" />
+              </Box>
             </IconButton>
             <IconButton size="small">
               <Badge color="error" variant="dot">

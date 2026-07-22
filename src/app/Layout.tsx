@@ -21,11 +21,13 @@ import DeviceHubOutlinedIcon from '@mui/icons-material/DeviceHubOutlined'
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined'
 import AppsOutlinedIcon from '@mui/icons-material/AppsOutlined'
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined'
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { logout } from '@/features/auth/authSlice'
+import { toggleTheme } from '@/features/theme/themeSlice'
 
 const NAV_ITEMS = [
   { label: 'Home', to: '/', icon: HomeOutlinedIcon },
@@ -44,6 +46,7 @@ export function Layout() {
   const navigate = useNavigate()
   const location = useLocation()
   const user = useAppSelector((state) => state.auth.user)
+  const themeMode = useAppSelector((state) => state.theme.mode)
   const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null)
 
   const openMenu = (e: MouseEvent<HTMLElement>) => setMenuAnchor(e.currentTarget)
@@ -54,6 +57,8 @@ export function Layout() {
     dispatch(logout())
     navigate('/login')
   }
+
+  const handleToggleTheme = () => dispatch(toggleTheme())
 
   // "Tables" and "Process" both live under /tables/*, so a plain prefix
   // match would highlight both nav items at once — match each one exactly
@@ -101,20 +106,24 @@ export function Layout() {
           </Stack>
 
           <Stack direction="row" spacing={1} alignItems="center">
-            <IconButton size="small">
+            <IconButton size="small" onClick={handleToggleTheme}>
               <Box
                 sx={{
                   width: 32,
                   height: 32,
                   borderRadius: '50%',
-                  bgcolor: '#FCE9D0',
-                  color: '#B4690E',
+                  bgcolor: themeMode === 'dark' ? '#2C303D' : '#FCE9D0',
+                  color: themeMode === 'dark' ? '#F5C97A' : '#B4690E',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
               >
-                <LightModeOutlinedIcon fontSize="small" />
+                {themeMode === 'dark' ? (
+                  <DarkModeOutlinedIcon fontSize="small" />
+                ) : (
+                  <LightModeOutlinedIcon fontSize="small" />
+                )}
               </Box>
             </IconButton>
             <IconButton size="small">

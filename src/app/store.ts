@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { authReducer } from '@/features/auth/authSlice'
 import { authApi } from '@/features/auth/authApi'
 import { productsApi } from '@/features/products/productsApi'
+import { themeReducer } from '@/features/theme/themeSlice'
 
 // One store for the whole app — analogous to a single root Pinia instance.
 // Each RTK Query api's `reducerPath` becomes a top-level key, and its
@@ -9,6 +10,7 @@ import { productsApi } from '@/features/products/productsApi'
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    theme: themeReducer,
     [authApi.reducerPath]: authApi.reducer,
     [productsApi.reducerPath]: productsApi.reducer,
   },

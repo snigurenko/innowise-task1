@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQueryWithAuth } from '@/app/baseQuery'
-import type { Product, ProductsResponse } from './types'
+import type { ProductsResponse } from './types'
 
 // A second RTK Query API slice, scoped to the products feature. Each feature
 // owning its own `createApi` instance (rather than one giant global api) is
@@ -29,11 +29,7 @@ export const productsApi = createApi({
             ]
           : [{ type: 'Product' as const, id: 'LIST' }],
     }),
-    getProductById: builder.query<Product, number>({
-      query: (id) => `/products/${id}`,
-      providesTags: (_result, _error, id) => [{ type: 'Product', id }],
-    }),
   }),
 })
 
-export const { useGetProductsQuery, useGetProductByIdQuery } = productsApi
+export const { useGetProductsQuery } = productsApi

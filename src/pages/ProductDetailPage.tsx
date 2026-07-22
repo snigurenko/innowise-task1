@@ -18,7 +18,7 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined'
 import EventOutlinedIcon from '@mui/icons-material/EventOutlined'
 import DirectionsOutlinedIcon from '@mui/icons-material/DirectionsOutlined'
-import { useGetProductByIdQuery } from '@/features/products/productsApi'
+import { useGetProductsQuery } from '@/features/products/productsApi'
 import { ImageLightbox } from '@/features/products/components/ImageLightbox'
 import type { ImageLightboxHandle } from '@/features/products/components/ImageLightbox'
 import {
@@ -34,7 +34,12 @@ import {
 export function ProductDetailPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { data: product, isLoading, error } = useGetProductByIdQuery(Number(id))
+  // Same shared no-arg query as HomePage/ProductsPage — the full catalog is
+  // already cached there, so this just reads one product out of it instead
+  // of firing a separate /products/:id request.
+  const { data, isLoading, error: fetchError } = useGetProductsQuery()
+  const product = data?.products.find((p) => p.id === Number(id))
+  const error = fetchError || (!isLoading && !product)
 
   // useRef holds the lightbox's imperative handle across renders without
   // itself causing a re-render when it's attached — unlike useState, writing

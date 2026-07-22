@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   Box,
   Typography,
@@ -30,6 +30,7 @@ import {
 } from '@/features/products/pharmaMapping'
 
 const PAGE_SIZE = 9
+const SEARCH_DEBOUNCE_MS = 300
 
 // Renders the "Tables" page as a data table (matching the reference design)
 // instead of a card grid. Every column value comes from pharmaMapping.ts,
@@ -37,6 +38,14 @@ const PAGE_SIZE = 9
 export function ProductsPage() {
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
+  const [debouncedSearch, setDebouncedSearch] = useState('')
+
+  // Debounce the search input so filtering only runs SEARCH_DEBOUNCE_MS after
+  // the user stops typing, instead of on every keystroke.
+  useEffect(() => {
+    const timeout = setTimeout(() => setDebouncedSearch(search), SEARCH_DEBOUNCE_MS)
+    return () => clearTimeout(timeout)
+  }, [search])
 
   // Same (no-arg) query as HomePage — served from the shared RTK Query
   // cache, so switching tabs never re-fetches. Filtering/pagination below
@@ -46,10 +55,21 @@ export function ProductsPage() {
 
   const filtered = useMemo(() => {
     const products = data?.products ?? []
-    if (!search) return products
-    const q = search.toLowerCase()
-    return products.filter((p) => p.title.toLowerCase().includes(q))
-  }, [data, search])
+    if (!debouncedSearch) return products
+    const q = debouncedSearch.toLowerCase()
+    return products.filter((p) => {
+      const facility = getFacility(p.id)
+      const { start, end } = getDateRange(p.id)
+      const fields = [
+        getDisplayCode(p),
+        facility.name,
+        facility.city,
+        formatDate(start),
+        formatDate(end),
+      ]
+      return fields.some((field) => field.toLowerCase().includes(q))
+    })
+  }, [data, debouncedSearch])
 
   const pageCount = useMemo(
     () => Math.max(1, Math.ceil(filtered.length / PAGE_SIZE)),

@@ -12,16 +12,24 @@ import type { Product } from './types'
 // ---------------------------------------------------------------------------
 
 const FACILITIES = [
-  { name: 'Serenity Health Clinic', city: 'Brooklyn, New York', street: '434 Rockaway Ave' },
-  { name: 'Vitality Medical Center', city: 'Manhattan, New York', street: '212 Lexington Ave' },
-  { name: 'Oasis Medical Institute', city: 'Queens, New York', street: '88 Northern Blvd' },
-  { name: 'Summit Health Institute', city: 'Bronx, New York', street: '310 Grand Concourse' },
-  { name: 'Prosperity Medical Practice', city: 'Staten Island, New York', street: '77 Victory Blvd' },
-  { name: 'Harmony Healthcare Group', city: 'Brooklyn, New York', street: '19 Flatbush Ave' },
+  { name: 'Serenity Health Clinic', city: 'Śródmieście, Warsaw', street: 'Marszałkowska 34', lat: 52.2298, lon: 21.0118 },
+  { name: 'Vitality Medical Center', city: 'Mokotów, Warsaw', street: 'Puławska 112', lat: 52.1897, lon: 21.0328 },
+  { name: 'Oasis Medical Institute', city: 'Wola, Warsaw', street: 'Górczewska 88', lat: 52.2345, lon: 20.9752 },
+  { name: 'Summit Health Institute', city: 'Praga-Południe, Warsaw', street: 'Grochowska 310', lat: 52.2364, lon: 21.068 },
+  { name: 'Prosperity Medical Practice', city: 'Ursynów, Warsaw', street: 'Puławska 456', lat: 52.1502, lon: 21.0526 },
+  { name: 'Harmony Healthcare Group', city: 'Żoliborz, Warsaw', street: 'Słowackiego 19', lat: 52.268, lon: 20.982 },
 ]
 
 export function getFacility(id: number) {
   return FACILITIES[id % FACILITIES.length]
+}
+
+// Each facility sits in a real Warsaw district, so — unlike the rest of this
+// file's derived/relabeled values — these lat/lon pairs are genuine
+// coordinates the map component can center an actual OpenStreetMap embed on.
+export function getCoordinates(id: number): { lat: number; lon: number } {
+  const facility = getFacility(id)
+  return { lat: facility.lat, lon: facility.lon }
 }
 
 // "Medicine" vs "Vaccine" is just a display bucket, picked deterministically
@@ -77,8 +85,8 @@ export function getStatusSegments(product: Product) {
 
 export function getAddress(product: Product): string {
   const facility = getFacility(product.id)
-  const zip = 10000 + ((product.id * 91) % 9000)
-  return `${facility.street}, ${facility.city} ${zip}`
+  const zip = `0${(product.id * 91) % 10}-${String((product.id * 137) % 1000).padStart(3, '0')}`
+  return `${facility.street}, ${zip} ${facility.city}`
 }
 
 // Small deterministic color swatch standing in for a manufacturer logo.

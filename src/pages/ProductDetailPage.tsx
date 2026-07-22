@@ -21,9 +21,11 @@ import DirectionsOutlinedIcon from '@mui/icons-material/DirectionsOutlined'
 import { useGetProductsQuery } from '@/features/products/productsApi'
 import { ImageLightbox } from '@/features/products/components/ImageLightbox'
 import type { ImageLightboxHandle } from '@/features/products/components/ImageLightbox'
+import { LocationMap } from '@/features/products/components/LocationMap'
 import {
   getFacility,
   getAddress,
+  getCoordinates,
   getDateRange,
   formatDate,
   getDisplayCode,
@@ -60,10 +62,10 @@ export function ProductDetailPage() {
 
   const facility = getFacility(product.id)
   const address = getAddress(product)
+  const coordinates = getCoordinates(product.id)
   const { start, end } = getDateRange(product.id)
   const manufacturer = product.brand ?? facility.name
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`
-  const mapImageUrl = `https://staticmap.openstreetmap.de/staticmap.php?center=40.6782,-73.9442&zoom=13&size=420x220&markers=40.6782,-73.9442,red-pushpin`
 
   return (
     <Box>
@@ -206,19 +208,7 @@ export function ProductDetailPage() {
               <Typography variant="subtitle1" sx={{ fontWeight: 700 }} gutterBottom>
                 Location
               </Typography>
-              <Box
-                component="img"
-                src={mapImageUrl}
-                alt="Map"
-                sx={{
-                  width: '100%',
-                  height: 160,
-                  objectFit: 'cover',
-                  borderRadius: 2,
-                  bgcolor: 'action.hover',
-                  display: 'block',
-                }}
-              />
+              <LocationMap lat={coordinates.lat} lon={coordinates.lon} label={facility.city} />
               <Typography variant="body2" sx={{ mt: 1 }}>
                 {address}
               </Typography>

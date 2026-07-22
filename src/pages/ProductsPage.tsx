@@ -38,18 +38,27 @@ export function ProductsPage() {
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
 
-  const { data, isLoading, isFetching, error } = useGetProductsQuery({
-    limit: PAGE_SIZE,
-    skip: (page - 1) * PAGE_SIZE,
-    search: search || undefined,
-  })
+  // Same (no-arg) query as HomePage — served from the shared RTK Query
+  // cache, so switching tabs never re-fetches. Filtering/pagination below
+  // are done client-side over that one cached list instead of hitting the
+  // API again for every page or search change.
+  const { data, isLoading, isFetching, error } = useGetProductsQuery()
+
+  const filtered = useMemo(() => {
+    const products = data?.products ?? []
+    if (!search) return products
+    const q = search.toLowerCase()
+    return products.filter((p) => p.title.toLowerCase().includes(q))
+  }, [data, search])
 
   const pageCount = useMemo(
-    () => (data ? Math.max(1, Math.ceil(data.total / PAGE_SIZE)) : 1),
-    // check if data works here, 
-    // it is howo we recalculate data
-    
-    [data],
+    () => Math.max(1, Math.ceil(filtered.length / PAGE_SIZE)),
+    [filtered],
+  )
+
+  const pageProducts = useMemo(
+    () => filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
+    [filtered, page],
   )
 
   return (
@@ -96,7 +105,7 @@ export function ProductsPage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.products.map((product) => {
+              {pageProducts.map((product) => {
                 const facility = getFacility(product.id)
                 const { start, end } = getDateRange(product.id)
                 const { current, total } = getProgress(product)
@@ -168,7 +177,8 @@ export function ProductsPage() {
             sx={{ p: 2, borderTop: '1px solid', borderColor: 'divider' }}
           >
             <Typography variant="caption" color="text.secondary">
-              {(page - 1) * PAGE_SIZE + 1} to {Math.min(page * PAGE_SIZE, data.total)} items of {data.total}
+              {(page - 1) * PAGE_SIZE + 1} to {Math.min(page * PAGE_SIZE, filtered.length)} items of{' '}
+              {filtered.length}
             </Typography>
             <Pagination count={pageCount} page={page} onChange={(_e, v) => setPage(v)} size="small" />
           </Stack>

@@ -30,13 +30,10 @@ import { useGetProductsQuery } from '@/features/products/productsApi'
 import { getKindLabel, getDisplayCode } from '@/features/products/pharmaMapping'
 import { pharmaColors } from '@/app/theme'
 
-// A larger sample gives more representative aggregates for the charts below.
-// Everything on this page is computed from this one real RTK Query response —
-// nothing here is hardcoded mock data, it's just visualized thematically.
-const SAMPLE_SIZE = 100
-
 export function HomePage() {
-  const { data, isLoading } = useGetProductsQuery({ limit: SAMPLE_SIZE })
+  // Same query (no args) as ProductsPage — RTK Query serves both from one
+  // shared cache entry, so this never triggers a second network request.
+  const { data, isLoading } = useGetProductsQuery()
   const products = data?.products ?? []
 
   const stats = useMemo(() => {

@@ -19,9 +19,3 @@ export interface ProductsResponse {
   skip: number
   limit: number
 }
-
-export interface ProductsQueryArgs {
-  limit?: number
-  skip?: number
-  search?: string
-}

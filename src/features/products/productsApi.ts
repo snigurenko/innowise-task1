@@ -26,6 +26,10 @@ export const productsApi = createApi({
               { type: 'Product' as const, id: 'LIST' },
             ]
           : [{ type: 'Product' as const, id: 'LIST' }],
+          // rtc  allows me to cash the responce 
+          // need to check how it sets and how it works 
+          // to check in redux tool kit, how to cash with using rtk 
+          
     }),
     getProductById: builder.query<Product, number>({
       query: (id) => `/products/${id}`,

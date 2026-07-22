@@ -106,3 +106,9 @@ rewrite for Vercel).
   see "About the data" above and `pharmaMapping.ts`.
 - RTK Query cache tags (`tagTypes`/`providesTags`) are set up on the products API so future
   mutations (e.g. an edit/delete feature) can invalidate exactly the right cached entries.
+
+
+todo:  
+seen how to use useCalback, how to properlly works useMeno, 
+
+react memo high order component 

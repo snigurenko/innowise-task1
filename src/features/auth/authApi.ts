@@ -20,3 +20,7 @@ export const authApi = createApi({
 })
 
 export const { useLoginMutation } = authApi
+
+// where i store the variables 
+// why it safes after page reloading
+// hot wot set it 

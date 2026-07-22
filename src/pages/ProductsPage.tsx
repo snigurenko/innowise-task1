@@ -46,6 +46,9 @@ export function ProductsPage() {
 
   const pageCount = useMemo(
     () => (data ? Math.max(1, Math.ceil(data.total / PAGE_SIZE)) : 1),
+    // check if data works here, 
+    // it is howo we recalculate data
+    
     [data],
   )
 

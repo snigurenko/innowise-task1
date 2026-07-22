@@ -1,3 +1,7 @@
+// TODO
+// I need to know which modes are existing and how to use, and what is differents
+
+
 import { createBrowserRouter } from 'react-router'
 import { Layout } from '@/app/Layout'
 import { ProtectedRoute } from '@/app/ProtectedRoute'

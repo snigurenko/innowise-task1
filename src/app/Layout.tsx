@@ -101,7 +101,20 @@ export function Layout() {
           </Stack>
 
           <Stack direction="row" spacing={1} alignItems="center">
-            <IconButton size="small" sx={{ bgcolor: '#FCE9D0', color: '#B4690E' }}>
+            <IconButton
+              size="small"
+              sx={{
+                bgcolor: '#FCE9D0',
+                color: '#B4690E',
+                width: 32,
+                height: 32,
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                p: 0,
+              }}
+            >
               <LightModeOutlinedIcon fontSize="small" />
             </IconButton>
             <IconButton size="small">

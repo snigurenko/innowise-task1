@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { User } from './types'
+import { isTokenExpired } from './tokenUtils'
 
 interface AuthState {
   user: User | null
@@ -9,10 +10,19 @@ interface AuthState {
 
 const storedToken = localStorage.getItem('accessToken')
 const storedUser = localStorage.getItem('user')
+const isStoredTokenValid = storedToken !== null && !isTokenExpired(storedToken)
+
+// A token that outlived its `exp` is worthless — drop it now instead of
+// letting the app boot into a "logged in" state ProtectedRoute would
+// bounce out of on the next check anyway.
+if (storedToken !== null && !isStoredTokenValid) {
+  localStorage.removeItem('accessToken')
+  localStorage.removeItem('user')
+}
 
 const initialState: AuthState = {
-  user: storedUser ? (JSON.parse(storedUser) as User) : null,
-  token: storedToken,
+  user: isStoredTokenValid && storedUser ? (JSON.parse(storedUser) as User) : null,
+  token: isStoredTokenValid ? storedToken : null,
 }
 
 // A Redux Toolkit "slice" ≈ a Pinia store: createSlice generates action

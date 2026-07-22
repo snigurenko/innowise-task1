@@ -1,4 +1,5 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
+import { baseQueryWithAuth } from '@/app/baseQuery'
 import type { Product, ProductsQueryArgs, ProductsResponse } from './types'
 
 // A second RTK Query API slice, scoped to the products feature. Each feature
@@ -7,7 +8,7 @@ import type { Product, ProductsQueryArgs, ProductsResponse } from './types'
 // dedicated Pinia store per domain area.
 export const productsApi = createApi({
   reducerPath: 'productsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://dummyjson.com' }),
+  baseQuery: baseQueryWithAuth,
   tagTypes: ['Product'],
   endpoints: (builder) => ({
     getProducts: builder.query<ProductsResponse, ProductsQueryArgs>({

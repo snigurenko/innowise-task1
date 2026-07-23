@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import {
   Box,
@@ -18,9 +17,7 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined'
 import EventOutlinedIcon from '@mui/icons-material/EventOutlined'
 import DirectionsOutlinedIcon from '@mui/icons-material/DirectionsOutlined'
-import { useGetProductsQuery } from '@/features/products/productsApi'
-import { ImageLightbox } from '@/features/products/components/ImageLightbox'
-import type { ImageLightboxHandle } from '@/features/products/components/ImageLightbox'
+import { useGetProductQuery } from '@/features/products/productsApi'
 import { LocationMap } from '@/features/products/components/LocationMap'
 import {
   getFacility,
@@ -37,11 +34,10 @@ export function ProductDetailPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
 
-  const { data, isLoading, error: fetchError } = useGetProductsQuery()
-  const product = data?.products.find((p) => p.id === Number(id))
+  const { data: product, isLoading, error: fetchError } = useGetProductQuery(Number(id), {
+    skip: !id,
+  })
   const error = fetchError || (!isLoading && !product)
-
-  const lightboxRef = useRef<ImageLightboxHandle>(null)
 
   if (isLoading) {
     return (
@@ -159,27 +155,6 @@ export function ProductDetailPage() {
           <Typography variant="body1" color="text.secondary" paragraph>
             {product.description}
           </Typography>
-
-          <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ mt: 2 }}>
-            {product.images.map((src, i) => (
-              <Box
-                key={src}
-                component="img"
-                src={src}
-                alt={`${product.title} ${i + 1}`}
-                onClick={() => lightboxRef.current?.open(i)}
-                sx={{
-                  width: 88,
-                  height: 88,
-                  objectFit: 'cover',
-                  borderRadius: 1.5,
-                  cursor: 'pointer',
-                  border: '1px solid',
-                  borderColor: 'divider',
-                }}
-              />
-            ))}
-          </Stack>
         </Grid>
 
         <Grid size={{ xs: 12, lg: 4 }}>
@@ -233,7 +208,6 @@ export function ProductDetailPage() {
           </Stack>
         </Grid>
       </Grid>
-      <ImageLightbox ref={lightboxRef} images={product.images} />
     </Box>
   )
 }

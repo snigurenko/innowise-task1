@@ -32,7 +32,7 @@ import { pharmaColors } from '@/app/theme'
 
 export function HomePage() {
 
-  const { data, isLoading } = useGetProductsQuery()
+  const { data, isLoading } = useGetProductsQuery({ limit: 9, skip: 0 })
   const products = data?.products ?? []
 
   const stats = useMemo(() => {

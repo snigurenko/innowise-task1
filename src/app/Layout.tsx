@@ -12,7 +12,6 @@ import {
   MenuItem,
   ListItemIcon,
   ListItemText,
-  Badge,
 } from '@mui/material'
 import { Link as RouterLink, Outlet, useNavigate, useLocation } from 'react-router'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
@@ -22,8 +21,6 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
-import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined'
-import AppsOutlinedIcon from '@mui/icons-material/AppsOutlined'
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined'
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { logout } from '@/features/auth/authSlice'
@@ -118,14 +115,6 @@ export function Layout() {
                   <LightModeOutlinedIcon fontSize="small" />
                 )}
               </Box>
-            </IconButton>
-            <IconButton size="small">
-              <Badge color="error" variant="dot">
-                <NotificationsNoneOutlinedIcon fontSize="small" />
-              </Badge>
-            </IconButton>
-            <IconButton size="small">
-              <AppsOutlinedIcon fontSize="small" />
             </IconButton>
             <IconButton size="small" onClick={openMenu} sx={{ ml: 0.5 }}>
               <Avatar sx={{ width: 32, height: 32, bgcolor: 'primary.main', fontSize: 14 }}>

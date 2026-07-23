@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Box,
   Typography,
@@ -42,35 +42,15 @@ export function ProductsPage() {
     return () => clearTimeout(timeout)
   }, [search])
 
-  const { data, isLoading, isFetching, error } = useGetProductsQuery()
+  const { data, isLoading, isFetching, error } = useGetProductsQuery({
+    limit: PAGE_SIZE,
+    skip: (page - 1) * PAGE_SIZE,
+    search: debouncedSearch || undefined,
+  })
 
-  const filtered = useMemo(() => {
-    const products = data?.products ?? []
-    if (!debouncedSearch) return products
-    const q = debouncedSearch.toLowerCase()
-    return products.filter((p) => {
-      const facility = getFacility(p.id)
-      const { start, end } = getDateRange(p.id)
-      const fields = [
-        getDisplayCode(p),
-        facility.name,
-        facility.city,
-        formatDate(start),
-        formatDate(end),
-      ]
-      return fields.some((field) => field.toLowerCase().includes(q))
-    })
-  }, [data, debouncedSearch])
-
-  const pageCount = useMemo(
-    () => Math.max(1, Math.ceil(filtered.length / PAGE_SIZE)),
-    [filtered],
-  )
-
-  const pageProducts = useMemo(
-    () => filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
-    [filtered, page],
-  )
+  const pageProducts = data?.products ?? []
+  const total = data?.total ?? 0
+  const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE))
 
   return (
     <Box>
@@ -188,8 +168,8 @@ export function ProductsPage() {
             sx={{ p: 2, borderTop: '1px solid', borderColor: 'divider' }}
           >
             <Typography variant="caption" color="text.secondary">
-              {(page - 1) * PAGE_SIZE + 1} to {Math.min(page * PAGE_SIZE, filtered.length)} items of{' '}
-              {filtered.length}
+              {total === 0 ? 0 : (page - 1) * PAGE_SIZE + 1} to {Math.min(page * PAGE_SIZE, total)} items of{' '}
+              {total}
             </Typography>
             <Pagination count={pageCount} page={page} onChange={(_e, v) => setPage(v)} size="small" />
           </Stack>

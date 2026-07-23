@@ -18,6 +18,7 @@ export const baseQueryWithAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBa
   extraOptions,
 ) => {
   const result = await rawBaseQuery(args, api, extraOptions)
+  // I know, that this fake API will not return 401, but I did it as it should be in real project
   if (result.error?.status === 401) {
     api.dispatch(logout())
   }

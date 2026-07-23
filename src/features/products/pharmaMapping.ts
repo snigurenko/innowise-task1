@@ -1,16 +1,5 @@
 import type { Product } from './types'
 
-// ---------------------------------------------------------------------------
-// The API is generic (DummyJSON /products), but the UI is styled after a
-// pharmaceutical-company dashboard design (see README for the Figma link).
-// Rather than inventing fake data, every value below is *derived
-// deterministically* from real fields already on the fetched Product (id,
-// rating, stock, price, discountPercentage) so the table/dashboard is still
-// genuinely driven by the RTK-Query-fetched data — it's just relabeled and
-// visualized to fit the pharma theme. Same product id always produces the
-// same "facility", dates, etc., so the UI doesn't flicker between renders.
-// ---------------------------------------------------------------------------
-
 const FACILITIES = [
   { name: 'Serenity Health Clinic', city: 'Śródmieście, Warsaw', street: 'Marszałkowska 34', lat: 52.2298, lon: 21.0118 },
   { name: 'Vitality Medical Center', city: 'Mokotów, Warsaw', street: 'Puławska 112', lat: 52.1897, lon: 21.0328 },
@@ -24,16 +13,11 @@ export function getFacility(id: number) {
   return FACILITIES[id % FACILITIES.length]
 }
 
-// Each facility sits in a real Warsaw district, so — unlike the rest of this
-// file's derived/relabeled values — these lat/lon pairs are genuine
-// coordinates the map component can center an actual OpenStreetMap embed on.
 export function getCoordinates(id: number): { lat: number; lon: number } {
   const facility = getFacility(id)
   return { lat: facility.lat, lon: facility.lon }
 }
 
-// "Medicine" vs "Vaccine" is just a display bucket, picked deterministically
-// from the id so the same product always renders the same label.
 export function getKindLabel(id: number): 'Medicine' | 'Vaccine' {
   return id % 3 === 0 ? 'Vaccine' : 'Medicine'
 }
@@ -42,8 +26,6 @@ export function getDisplayCode(product: Product): string {
   return `${getKindLabel(product.id)} #${(product.id * 8971) % 90000}`
 }
 
-// Deterministic (not random) start/end date range, seeded by id, so the same
-// product always shows the same dates across visits/renders.
 export function getDateRange(id: number) {
   const start = new Date(2018, 0, 1)
   start.setDate(start.getDate() + ((id * 37) % 3000))
@@ -56,21 +38,16 @@ export function formatDate(date: Date): string {
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
-// SUCCESS REACTION column: driven by the product's real rating field.
 export function isSuccessful(product: Product): boolean {
   return product.rating >= 4
 }
 
-// PROCESS progress bar: a stable "capacity" derived from id, filled in
-// proportion to the product's real rating (0-5 scaled to a percentage).
 export function getProgress(product: Product): { current: number; total: number } {
   const total = 100 + ((product.id * 131) % 550)
   const current = Math.round(total * Math.min(product.rating / 5, 1))
   return { current, total }
 }
 
-// STATUS mini-bar: four segments, one per real numeric field on the product,
-// each weighted proportionally to that field relative to a fixed max.
 export function getStatusSegments(product: Product) {
   return [
     { color: '#4F6FF0', weight: Math.max(Math.min(product.rating / 5, 1), 0.08) },
@@ -89,7 +66,6 @@ export function getAddress(product: Product): string {
   return `${facility.street}, ${zip} ${facility.city}`
 }
 
-// Small deterministic color swatch standing in for a manufacturer logo.
 export function getManufacturerColor(seed: string): string {
   let hash = 0
   for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0
@@ -97,9 +73,6 @@ export function getManufacturerColor(seed: string): string {
   return `hsl(${hue}, 45%, 25%)`
 }
 
-// Builds a downloadable .ics calendar file for the "Add to Calendar" button —
-// a real feature (not just decorative), built from the same deterministic
-// date range shown on the page.
 export function buildIcsDataUrl(product: Product): string {
   const { start, end } = getDateRange(product.id)
   const toIcsDate = (d: Date) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'

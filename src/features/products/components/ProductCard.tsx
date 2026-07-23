@@ -36,10 +36,4 @@ function ProductCardComponent({ product }: ProductCardProps) {
   )
 }
 
-// React.memo skips re-rendering this card if its `product` prop is
-// shallow-equal to last render. Without it, every card in the grid would
-// re-render on every parent state change (e.g. each keystroke in the search
-// box) even though only the fetched data — not each card's own props —
-// actually changed. Vue's reactivity system gives you this for free; in
-// React you opt in explicitly.
 export const ProductCard = memo(ProductCardComponent)

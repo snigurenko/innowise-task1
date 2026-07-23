@@ -1,5 +1,3 @@
-// TODO
-// I need to know which modes are existing and how to use, and what is differents
 
 
 import { createBrowserRouter } from 'react-router'
@@ -13,10 +11,6 @@ import { DocumentationPage } from '@/pages/DocumentationPage'
 import { ChatPage } from '@/pages/ChatPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 
-// React Router v8's "data mode" (createBrowserRouter + <RouterProvider/>,
-// wired up in App.tsx) ≈ the routes array you'd pass to Vue Router's
-// createRouter({ routes: [...] }) — a declarative route tree instead of
-// nested <Route> JSX (though that declarative JSX form also still exists).
 export const router = createBrowserRouter([
   {
     path: '/login',

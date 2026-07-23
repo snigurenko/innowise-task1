@@ -1,10 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type { LoginRequest, LoginResponse } from './types'
 
-// RTK Query "API slice" for auth. This is the direct replacement for a
-// hand-written Pinia action that calls axios and manages loading/error state
-// itself — createApi generates a typed hook (useLoginMutation) that tracks
-// isLoading/isSuccess/error for you.
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://dummyjson.com' }),
@@ -21,6 +17,3 @@ export const authApi = createApi({
 
 export const { useLoginMutation } = authApi
 
-// where i store the variables 
-// why it safes after page reloading
-// hot wot set it 

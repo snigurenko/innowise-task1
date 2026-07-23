@@ -16,11 +16,6 @@ function ImageLightboxComponent({ images }: ImageLightboxProps, ref: Ref<ImageLi
   const [open, setOpen] = useState(false)
   const [index, setIndex] = useState(0)
 
-  // useImperativeHandle exposes a small imperative API (open/close) through
-  // the ref instead of driving this component purely with props. Handy for
-  // "fire and forget" UI — modals, lightboxes, toasts — where the parent
-  // wants to *command* the child rather than pass down a boolean it has to
-  // keep synchronized in its own state.
   useImperativeHandle(ref, () => ({
     open: (i: number) => {
       setIndex(i)
@@ -63,10 +58,4 @@ function ImageLightboxComponent({ images }: ImageLightboxProps, ref: Ref<ImageLi
   )
 }
 
-// forwardRef is required here because a *custom* component doesn't accept a
-// `ref` prop by default — only host DOM elements (<div>, <img>, ...) do. This
-// wrapper explicitly forwards whatever ref the parent passes down into
-// useImperativeHandle above. (React 19 allows accepting `ref` as a plain prop
-// on function components in many cases, but forwardRef remains valid and is
-// still the clearest way to combine a ref with useImperativeHandle.)
 export const ImageLightbox = forwardRef(ImageLightboxComponent)

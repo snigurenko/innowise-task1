@@ -9,9 +9,6 @@ const STACK = [
   'Recharts',
 ]
 
-// A lightweight in-app docs page (nav item "Documentation" in the reference
-// design). Mirrors the top of the project README so a reviewer can read the
-// essentials without leaving the app.
 export function DocumentationPage() {
   return (
     <Box sx={{ maxWidth: 820 }}>

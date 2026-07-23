@@ -4,9 +4,6 @@ function base64UrlDecode(segment: string): string {
   return atob(padded)
 }
 
-// DummyJSON's accessToken is a JWT with an `exp` (seconds) claim.
-// We only read it client-side to skip an obviously-dead token —
-// this is not a substitute for the server rejecting it.
 export function isTokenExpired(token: string): boolean {
   try {
     const payload = JSON.parse(base64UrlDecode(token.split('.')[1])) as { exp?: number }

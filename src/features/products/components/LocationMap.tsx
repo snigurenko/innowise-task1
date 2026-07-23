@@ -6,12 +6,6 @@ interface LocationMapProps {
   label: string
 }
 
-// The DummyJSON /products response never includes real geo-coordinates, but
-// every facility in pharmaMapping.ts sits in an actual Warsaw district, so
-// there are genuine lat/lon pairs to center this on. Embeds the public
-// OpenStreetMap viewer directly (no API key needed) — the earlier
-// implementation pointed at a static-map image host that wasn't reachable at
-// all, leaving a broken image icon.
 export function LocationMap({ lat, lon, label }: LocationMapProps) {
   const delta = 0.01
   const bbox = `${lon - delta},${lat - delta},${lon + delta},${lat + delta}`

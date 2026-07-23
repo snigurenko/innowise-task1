@@ -36,16 +36,11 @@ import {
 export function ProductDetailPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  // Same shared no-arg query as HomePage/ProductsPage — the full catalog is
-  // already cached there, so this just reads one product out of it instead
-  // of firing a separate /products/:id request.
+
   const { data, isLoading, error: fetchError } = useGetProductsQuery()
   const product = data?.products.find((p) => p.id === Number(id))
   const error = fetchError || (!isLoading && !product)
 
-  // useRef holds the lightbox's imperative handle across renders without
-  // itself causing a re-render when it's attached — unlike useState, writing
-  // to `.current` is silent as far as React's render cycle is concerned.
   const lightboxRef = useRef<ImageLightboxHandle>(null)
 
   if (isLoading) {

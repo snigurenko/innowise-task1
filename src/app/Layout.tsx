@@ -37,10 +37,6 @@ const NAV_ITEMS = [
   { label: 'Chat', to: '/chat', icon: ChatBubbleOutlineOutlinedIcon },
 ]
 
-// Shared shell (top nav + content outlet) for every authenticated page — the
-// React Router equivalent of a parent route rendering <router-view/> for its
-// children. Styled after the reference "pharmaceutical company" dashboard:
-// icon+label nav centered in the bar, utility icons + avatar on the right.
 export function Layout() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -60,9 +56,6 @@ export function Layout() {
 
   const handleToggleTheme = () => dispatch(toggleTheme())
 
-  // "Tables" and "Process" both live under /tables/*, so a plain prefix
-  // match would highlight both nav items at once — match each one exactly
-  // instead so only the item you're actually on lights up.
   const isActive = (to: string) => {
     if (to === '/') return location.pathname === '/'
     if (to === '/tables') return location.pathname === '/tables'

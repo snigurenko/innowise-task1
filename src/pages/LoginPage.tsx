@@ -7,19 +7,15 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { setCredentials } from '@/features/auth/authSlice'
 
 export function LoginPage() {
-  // Local, form-only state — this never needs to live in Redux because
-  // nothing outside this component (and its children) cares about it.
+
   const [username, setUsername] = useState('emilys')
   const [password, setPassword] = useState('emilyspass')
 
-  // RTK Query mutation hook: gives back a trigger function plus
-  // isLoading/error, so there's no hand-rolled `isSubmitting` state here.
   const [login, { isLoading, error }] = useLoginMutation()
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const token = useAppSelector((state) => state.auth.token)
 
-  // Already authenticated → skip the login screen entirely.
   if (token) {
     return <Navigate to="/" replace />
   }
@@ -43,7 +39,7 @@ export function LoginPage() {
       )
       navigate('/')
     } catch {
-      // `error` from useLoginMutation already reflects the failure in the UI.
+
     }
   }
 

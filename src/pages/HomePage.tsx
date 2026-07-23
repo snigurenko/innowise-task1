@@ -31,8 +31,7 @@ import { getKindLabel, getDisplayCode } from '@/features/products/pharmaMapping'
 import { pharmaColors } from '@/app/theme'
 
 export function HomePage() {
-  // Same query (no args) as ProductsPage — RTK Query serves both from one
-  // shared cache entry, so this never triggers a second network request.
+
   const { data, isLoading } = useGetProductsQuery()
   const products = data?.products ?? []
 
@@ -45,9 +44,6 @@ export function HomePage() {
     return { lowStock, outOfStock, vaccines, featured }
   }, [products])
 
-  // "Total tests" line chart: price (solid) vs. rating scaled to the same
-  // axis (dotted) across the first 14 fetched products, labeled with a
-  // cosmetic date axis purely so the shape reads like a timeline.
   const lineData = useMemo(() => {
     const days = ['01 May', '', '', '', '', '', '15 May', '', '', '', '', '', '', '30 May']
     return products.slice(0, 14).map((p, i) => ({
@@ -57,7 +53,6 @@ export function HomePage() {
     }))
   }, [products])
 
-  // "Total tested drugs" bar chart: count of products per category, top 7.
   const categoryBars = useMemo(() => {
     const counts = new Map<string, number>()
     products.forEach((p) => counts.set(p.category, (counts.get(p.category) ?? 0) + 1))
@@ -67,15 +62,11 @@ export function HomePage() {
       .map(([category, count]) => ({ category, count }))
   }, [products])
 
-  // "Drug approval rates": price trend of the 7 highest-rated products,
-  // compared against a smoothed baseline (previous-period comparison line).
   const approvalTrend = useMemo(() => {
     const top = [...products].sort((a, b) => b.rating - a.rating).slice(0, 7)
     return top.map((p, i) => ({ day: `Day ${i + 1}`, price: p.price, baseline: p.price * 0.85 }))
   }, [products])
 
-  // "Testing process" donut: category counts bucketed into 3 illustrative
-  // phases by hashing the category name.
   const processDonut = useMemo(() => {
     const buckets = [0, 0, 0]
     products.forEach((p) => {

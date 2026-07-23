@@ -1,15 +1,6 @@
 import { createTheme } from '@mui/material/styles'
 import type { ThemeMode } from '@/features/theme/themeSlice'
 
-// A single, small theme object is the MUI equivalent of a Vuetify/Tailwind
-// design-token config — colors, radii, and typography defined once and
-// consumed everywhere via the ThemeProvider in App.tsx.
-//
-// Palette matches the "pharmaceutical company" reference design (Figma:
-// DEMO for Dima Bukovsky) — soft indigo accent, pale gray page background,
-// white cards with a hairline border instead of heavy shadows. `getTheme`
-// takes the current mode ('light' | 'dark') so App.tsx can rebuild the
-// theme whenever the user toggles it.
 export const getTheme = (mode: ThemeMode) =>
   createTheme({
     palette: {
@@ -63,9 +54,6 @@ export const getTheme = (mode: ThemeMode) =>
     },
   })
 
-// Extra design tokens that don't fit MUI's palette shape (chart series,
-// status-bar segments) — kept alongside the theme so every themed component
-// pulls colors from one place instead of hardcoding hex values inline.
 export const pharmaColors = {
   chartBlue: '#4F6FF0',
   chartBlueLight: '#C9D3F5',

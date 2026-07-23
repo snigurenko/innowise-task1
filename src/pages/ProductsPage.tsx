@@ -32,25 +32,16 @@ import {
 const PAGE_SIZE = 9
 const SEARCH_DEBOUNCE_MS = 300
 
-// Renders the "Tables" page as a data table (matching the reference design)
-// instead of a card grid. Every column value comes from pharmaMapping.ts,
-// which derives it from the real product returned by RTK Query.
 export function ProductsPage() {
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const [debouncedSearch, setDebouncedSearch] = useState('')
 
-  // Debounce the search input so filtering only runs SEARCH_DEBOUNCE_MS after
-  // the user stops typing, instead of on every keystroke.
   useEffect(() => {
     const timeout = setTimeout(() => setDebouncedSearch(search), SEARCH_DEBOUNCE_MS)
     return () => clearTimeout(timeout)
   }, [search])
 
-  // Same (no-arg) query as HomePage — served from the shared RTK Query
-  // cache, so switching tabs never re-fetches. Filtering/pagination below
-  // are done client-side over that one cached list instead of hitting the
-  // API again for every page or search change.
   const { data, isLoading, isFetching, error } = useGetProductsQuery()
 
   const filtered = useMemo(() => {

@@ -12,7 +12,6 @@ export interface LoginRequest {
   password: string
 }
 
-// Shape returned by DummyJSON's POST /auth/login
 export interface LoginResponse extends User {
   accessToken: string
   refreshToken: string

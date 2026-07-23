@@ -12,10 +12,6 @@ const rawBaseQuery = fetchBaseQuery({
   },
 })
 
-// Shared by api slices that call *authenticated* endpoints. A 401 here means
-// the server rejected our token (revoked/expired session), so clear local
-// auth state the same way `logout()` does — ProtectedRoute then redirects
-// to /login on its next render, since it's subscribed to state.auth.token.
 export const baseQueryWithAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
   args,
   api,

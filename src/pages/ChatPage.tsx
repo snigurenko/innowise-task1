@@ -11,10 +11,6 @@ export function ChatPage() {
   const [draft, setDraft] = useState('')
   const bottomRef = useRef<HTMLDivElement>(null)
 
-  // Auto-scroll effect: runs after every render where `messages` changed.
-  // No cleanup needed here (nothing to dispose of), so this effect just
-  // returns undefined implicitly — contrast with useWebSocket's effect,
-  // which does need cleanup.
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
@@ -37,7 +33,7 @@ export function ChatPage() {
         />
       </Stack>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        Connected to the public echo server (wss://ws.ifelse.io) — whatever you send is echoed
+        Connected to the public echo server (wss:
         back.
       </Typography>
       <Paper variant="outlined" sx={{ height: 400, overflowY: 'auto', p: 2, mb: 2 }}>

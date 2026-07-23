@@ -12,9 +12,6 @@ const storedToken = localStorage.getItem('accessToken')
 const storedUser = localStorage.getItem('user')
 const isStoredTokenValid = storedToken !== null && !isTokenExpired(storedToken)
 
-// A token that outlived its `exp` is worthless — drop it now instead of
-// letting the app boot into a "logged in" state ProtectedRoute would
-// bounce out of on the next check anyway.
 if (storedToken !== null && !isStoredTokenValid) {
   localStorage.removeItem('accessToken')
   localStorage.removeItem('user')
@@ -25,11 +22,6 @@ const initialState: AuthState = {
   token: isStoredTokenValid ? storedToken : null,
 }
 
-// A Redux Toolkit "slice" ≈ a Pinia store: createSlice generates action
-// creators + a reducer from a plain object of "mutations". Inside a reducer
-// you can write `state.user = ...` even though the underlying state is
-// immutable — RTK uses Immer under the hood to translate that into a new
-// state tree for you.
 const authSlice = createSlice({
   name: 'auth',
   initialState,

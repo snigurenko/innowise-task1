@@ -4,9 +4,6 @@ import { authApi } from '@/features/auth/authApi'
 import { productsApi } from '@/features/products/productsApi'
 import { themeReducer } from '@/features/theme/themeSlice'
 
-// One store for the whole app — analogous to a single root Pinia instance.
-// Each RTK Query api's `reducerPath` becomes a top-level key, and its
-// `.middleware` must be added so caching, refetching and cache lifetimes work.
 export const store = configureStore({
   reducer: {
     auth: authReducer,

@@ -8,7 +8,6 @@ import { HomePage } from '@/pages/HomePage'
 import { ProductsPage } from '@/pages/ProductsPage'
 import { ProductDetailPage } from '@/pages/ProductDetailPage'
 import { DocumentationPage } from '@/pages/DocumentationPage'
-import { ChatPage } from '@/pages/ChatPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 
 export const router = createBrowserRouter([
@@ -26,7 +25,6 @@ export const router = createBrowserRouter([
           { path: '/tables', element: <ProductsPage /> },
           { path: '/tables/:id', element: <ProductDetailPage /> },
           { path: '/documentation', element: <DocumentationPage /> },
-          { path: '/chat', element: <ChatPage /> },
         ],
       },
     ],

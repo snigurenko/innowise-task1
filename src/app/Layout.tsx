@@ -18,7 +18,6 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined'
 import DeviceHubOutlinedIcon from '@mui/icons-material/DeviceHubOutlined'
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
-import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined'
@@ -31,7 +30,6 @@ const NAV_ITEMS = [
   { label: 'Tables', to: '/tables', icon: GridViewOutlinedIcon },
   { label: 'Process', to: '/tables/1', icon: DeviceHubOutlinedIcon },
   { label: 'Documentation', to: '/documentation', icon: DescriptionOutlinedIcon },
-  { label: 'Chat', to: '/chat', icon: ChatBubbleOutlineOutlinedIcon },
 ]
 
 export function Layout() {

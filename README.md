@@ -2,7 +2,7 @@
 
 A single-page application built with React 19 + TypeScript + Vite. Users log in against the
 [DummyJSON](https://dummyjson.com) test API and browse/track drug & vaccine testing records —
-a dashboard, a searchable data table, a detail ("Process") view, and a bonus WebSocket chat. The
+a dashboard, a searchable data table, and a detail ("Process") view. The
 UI is styled after a pharmaceutical-company dashboard reference design
 ([Figma: DEMO for Dima Bukovsky](https://www.figma.com/design/FXH4IrR8Vho44BpcloBNfc/DEMO-for-Dima-Bukovsky)),
 while the data itself is the generic DummyJSON `/products` endpoint — see "About the data" below.
@@ -20,8 +20,6 @@ while the data itself is the generic DummyJSON `/products` endpoint — see "Abo
   gallery/lightbox, "Get directions" (real Google Maps link), and "Add to Calendar" (generates a
   real downloadable `.ics` file).
 - **Documentation** (`/documentation`) — in-app docs page summarizing the stack and page list.
-- **Chat** (`/chat`) — bonus WebSocket chat connected to the public echo server
-  `wss://ws.ifelse.io`; anything you send is echoed back by the server.
 - Unauthenticated visitors are redirected to `/login`; unknown routes render a 404 page.
 
 ## About the data
@@ -53,7 +51,7 @@ Full dependency list and versions are in `package.json`.
 src/
   app/          # store, router, theme, layout, route guard, composition root (App.tsx)
   pages/        # one component per route
-  features/     # domain-scoped: auth/, products/, chat/ — each owns its slice/api/components
+  features/     # domain-scoped: auth/, products/ — each owns its slice/api/components
   vite-env.d.ts
 ```
 
@@ -98,9 +96,9 @@ rewrite for Vercel).
 
 - All components are typed; `@typescript-eslint/no-explicit-any` is set to `error` in
   `eslint.config.js` to enforce the "no `any`" requirement.
-- `React.memo`, `useRef`, `forwardRef` + `useImperativeHandle`, and `useEffect` cleanup are each
+- `React.memo`, `useRef`, and `forwardRef` + `useImperativeHandle` are each
   used for a concrete reason (not just to check a box) — see `ProductCard.tsx`,
-  `ImageLightbox.tsx`, `ProductDetailPage.tsx`, and `useWebSocket.ts` respectively, each with an
+  `ImageLightbox.tsx`, and `ProductDetailPage.tsx` respectively, each with an
   inline comment explaining why.
 - The pharma-themed table/dashboard values are all derived from real API fields, not mocked —
   see "About the data" above and `pharmaMapping.ts`.

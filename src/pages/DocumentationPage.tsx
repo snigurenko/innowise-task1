@@ -48,9 +48,6 @@ export function DocumentationPage() {
             <strong>Process</strong> — full detail view for a single record: location, dates,
             an image gallery/lightbox, and a downloadable calendar invite.
           </Typography>
-          <Typography variant="body2">
-            <strong>Chat</strong> — a bonus WebSocket chat connected to a public echo server.
-          </Typography>
         </Stack>
       </Paper>
 
